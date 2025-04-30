@@ -5,7 +5,9 @@ export const authUser = (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
   }
 
   try {
@@ -14,6 +16,8 @@ export const authUser = (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.status(403).json({ message: "Forbidden" });
+    res.status(403).json({
+      message: "Forbidden",
+    });
   }
 };

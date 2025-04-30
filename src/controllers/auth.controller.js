@@ -12,7 +12,9 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "User Not Found" });
+      return res.status(400).json({
+        message: "User Not Found",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -56,7 +58,9 @@ export const user = async (req, res) => {
     });
 
     if (!user) {
-      res.status(404).json({ message: "User Not Found" });
+      res.status(404).json({
+        message: "User Not Found",
+      });
     }
     res.status(200).json({ data: user });
   } catch (err) {
@@ -68,5 +72,7 @@ export const user = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.status(200).json({ message: "Logout Success" });
+  res.status(200).json({
+    message: "Logout Success",
+  });
 };
