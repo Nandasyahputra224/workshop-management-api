@@ -1,13 +1,14 @@
 import express from "express";
 
-import { addUser, showUsers } from "../controllers/user.controller.js";
+import { createUser, showUsers } from "../controllers/user.controller.js";
+import { authUser, authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 const routesObject = [
   {
     method: "post",
-    path: "/add",
-    handler: addUser,
+    path: "/create",
+    handler: [authUser, authAdmin, createUser],
   },
   {
     method: "get",

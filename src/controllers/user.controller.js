@@ -3,21 +3,23 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-export const addUser = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
-    const { id, name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     const hashedPw = await bcrypt.hash(password, 10);
+
+    const isRole = role || "Mekanik";
     const user = await prisma.users.create({
       data: {
-        id,
-        name,
-        email,
+        name: name,
+        email: email,
         password: hashedPw,
+        role: isRole,
       },
     });
 
     res.status(201).json({
-      message: "Add User Sucess",
+      message: "Create User Success",
       data: user,
     });
   } catch (err) {
