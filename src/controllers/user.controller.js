@@ -8,24 +8,34 @@ export const createUser = async (req, res) => {
     const { name, email, password, role } = req.body;
     const hashedPw = await bcrypt.hash(password, 10);
 
+    const userEmail = await prisma.users.findUnique({
+      where: { email },
+    });
+
+    if (userEmail) {
+      return res.status(409).json({
+        message: "Email already exists!",
+      });
+    }
+
     const isRole = role || "Mekanik";
     const user = await prisma.users.create({
       data: {
-        name: name,
-        email: email,
+        name,
+        email,
         password: hashedPw,
         role: isRole,
       },
     });
 
     res.status(201).json({
-      message: "Create User Success",
+      message: "Create user successfull!",
       data: user,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Internal Server Error",
+      message: "Internal server error",
     });
   }
 };
@@ -50,7 +60,7 @@ export const showUsers = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Internal Server Error",
+      message: "Internal server error",
     });
   }
 };

@@ -6,13 +6,12 @@ export const authUser = (req, res, next) => {
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
-        message: "Unauthorized Token Missing",
+        message: "Unauthorized token missing",
       });
     }
 
     const token = authHeader.split(" ")[1];
     const decode = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decode);
     req.user = decode;
     next();
   } catch (err) {
@@ -28,14 +27,14 @@ export const authAdmin = (req, res, next) => {
     const role = req.user?.role;
     if (role !== "Admin") {
       return res.status(403).json({
-        message: "Access Denied Admin Only",
+        message: "Access denied: Admin only",
       });
     }
     next();
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Internal Server Error",
+      message: "Internal server error",
     });
   }
 };

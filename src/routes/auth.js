@@ -1,6 +1,6 @@
 import express from "express";
 
-import { login, user, logout } from "../controllers/auth.controller.js";
+import { login, profile, logout } from "../controllers/auth.controller.js";
 import { authUser } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router();
@@ -13,7 +13,7 @@ const routesObject = [
   {
     method: "get",
     path: "/profile",
-    handler: [authUser, user],
+    handler: [authUser, profile],
   },
   {
     method: "post",
