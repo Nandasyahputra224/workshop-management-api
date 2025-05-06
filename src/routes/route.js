@@ -1,6 +1,6 @@
 import express from "express";
 
-import { createUser, showUsers } from "../controllers/user.controller.js";
+import { createUser, userList } from "../controllers/user.controller.js";
 import { authUser, authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -13,7 +13,7 @@ const routesObject = [
   {
     method: "get",
     path: "/users",
-    handler: showUsers,
+    handler: [authUser, authAdmin, userList],
   },
 ];
 

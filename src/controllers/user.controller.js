@@ -40,7 +40,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const showUsers = async (req, res) => {
+export const userList = async (req, res) => {
   try {
     const users = await prisma.users.findMany({
       select: {
