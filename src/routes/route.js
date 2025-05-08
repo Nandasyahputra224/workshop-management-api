@@ -1,6 +1,10 @@
 import express from "express";
 
-import { createUser, userList } from "../controllers/user.controller.js";
+import {
+  createUser,
+  userList,
+  updateUser,
+} from "../controllers/user.controller.js";
 import { authUser, authAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -14,6 +18,11 @@ const routesObject = [
     method: "get",
     path: "/users",
     handler: [authUser, authAdmin, userList],
+  },
+  {
+    method: "patch",
+    path: "/user/:id",
+    handler: [authUser, authAdmin, updateUser],
   },
 ];
 
