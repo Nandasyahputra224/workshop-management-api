@@ -4,10 +4,12 @@ import {
   createUser,
   userList,
   updateUser,
+  userDetail,
+  deleteUser,
 } from "../controllers/user.controller.js";
 import { authUser, authAdmin } from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const routes = express.Router();
 const routesObject = [
   {
     method: "post",
@@ -20,14 +22,24 @@ const routesObject = [
     handler: [authUser, authAdmin, userList],
   },
   {
+    method: "get",
+    path: "/users/:id",
+    handler: [authUser, authAdmin, userDetail],
+  },
+  {
     method: "patch",
-    path: "/user/:id",
+    path: "/users/:id",
     handler: [authUser, authAdmin, updateUser],
+  },
+  {
+    method: "delete",
+    path: "/users/:id",
+    handler: [authUser, authAdmin, deleteUser],
   },
 ];
 
 routesObject.forEach(({ method, path, handler }) => {
-  router[method](path, handler);
+  routes[method](path, handler);
 });
 
-export default router;
+export default routes;

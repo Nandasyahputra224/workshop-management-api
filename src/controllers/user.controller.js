@@ -62,12 +62,47 @@ export const userList = async (req, res) => {
         createdAt: true,
         updatedAt: true,
         updatedAt: true,
-        deletedAt: true,
+        deletedAt: false,
       },
     });
 
     res.status(200).json({
       data: users,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const userDetail = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await prisma.users.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: false,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: false,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      data: user,
     });
   } catch (err) {
     console.log(err);
@@ -112,6 +147,16 @@ export const updateUser = async (req, res) => {
         role: role || user.role,
         password: hashedPw || user.password,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: false,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: false,
+      },
     });
 
     res.status(200).json({
@@ -120,6 +165,22 @@ export const updateUser = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.users.delete({
+      where: { id },
+    });
+
+    res.status(204).json();
+  } catch (err) {
     res.status(500).json({
       message: "Internal server error",
     });

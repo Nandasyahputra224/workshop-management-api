@@ -58,6 +58,7 @@ export const profile = async (req, res) => {
         role: true,
         createdAt: true,
         updatedAt: true,
+        deletedAt: false,
       },
     });
 
