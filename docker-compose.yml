@@ -4,7 +4,7 @@ services:
     image: workshop-management-api
     container_name: workshop-api
     ports: 
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - .:/app
     command: npm run dev
