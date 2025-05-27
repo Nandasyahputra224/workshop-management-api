@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../config/prisma.js";
 import bcrypt, { hash } from "bcrypt";
-
-const prisma = new PrismaClient();
+import { formatDate } from "../utils/formatDate.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -34,13 +33,17 @@ export const createUser = async (req, res) => {
         role: true,
         createdAt: true,
         updatedAt: false,
-        deletedAt: false,
       },
     });
 
+    const response = {
+      ...user,
+      createdAt: formatDate(user.createdAt),
+    };
+
     res.status(201).json({
       message: "Create user successfull!",
-      data: user,
+      data: response,
     });
   } catch (err) {
     console.log(err);
@@ -62,12 +65,17 @@ export const userList = async (req, res) => {
         createdAt: true,
         updatedAt: true,
         updatedAt: true,
-        deletedAt: false,
       },
     });
 
+    const response = users.map((user) => ({
+      ...user,
+      createdAt: formatDate(user.createdAt),
+      updatedAt: formatDate(user.updatedAt),
+    }));
+
     res.status(200).json({
-      data: users,
+      data: response,
     });
   } catch (err) {
     console.log(err);
@@ -91,7 +99,6 @@ export const userDetail = async (req, res) => {
         role: true,
         createdAt: true,
         updatedAt: true,
-        deletedAt: false,
       },
     });
 
@@ -101,8 +108,14 @@ export const userDetail = async (req, res) => {
       });
     }
 
+    const response = {
+      ...user,
+      createdAt: formatDate(user.createdAt),
+      updatedAt: formatDate(user.updatedAt),
+    };
+
     res.status(200).json({
-      data: user,
+      data: response,
     });
   } catch (err) {
     console.log(err);
@@ -138,14 +151,18 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    const hashedPw = await bcrypt.hash(password, 10);
+    let hashedPw;
+    if (password) {
+      hashedPw = await bcrypt.hash(password, 10);
+    }
+
     const updateUser = await prisma.users.update({
       where: { id },
       data: {
-        name: name || user.name,
-        email: email || user.email,
-        role: role || user.role,
-        password: hashedPw || user.password,
+        name: name ?? user.name,
+        email: email ?? user.email,
+        role: role ?? user.role,
+        ...(hashedPw && { password: hashedPw }),
       },
       select: {
         id: true,
@@ -155,13 +172,18 @@ export const updateUser = async (req, res) => {
         role: true,
         createdAt: true,
         updatedAt: true,
-        deletedAt: false,
       },
     });
 
+    const response = {
+      ...updateUser,
+      createdAt: formatDate(updateUser.createdAt),
+      updatedAt: formatDate(updateUser.updatedAt),
+    };
+
     res.status(200).json({
       message: "Update user successfull",
-      data: updateUser,
+      data: response,
     });
   } catch (err) {
     console.log(err);

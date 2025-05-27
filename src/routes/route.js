@@ -24,7 +24,7 @@ const routesObject = [
   {
     method: "get",
     path: "/users/:id",
-    handler: [authUser, authAdmin, userDetail],
+    handler: [authUser, userDetail],
   },
   {
     method: "patch",

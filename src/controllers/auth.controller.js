@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../config/prisma.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 export const login = async (req, res) => {
   try {
@@ -56,9 +54,8 @@ export const profile = async (req, res) => {
         email: true,
         password: false,
         role: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: false,
+        createdAt: false,
+        updatedAt: false,
       },
     });
 
@@ -67,6 +64,7 @@ export const profile = async (req, res) => {
         message: "User not found",
       });
     }
+
     res.status(200).json({ data: user });
   } catch (err) {
     console.log(err);

@@ -2,6 +2,8 @@ import express from "express";
 
 import { login, profile, logout } from "../controllers/auth.controller.js";
 import { authUser } from "../middlewares/auth.middleware.js";
+import { forgotPassword } from "../controllers/forgotPassword.controller.js";
+import { resetPassword } from "../controllers/resetPassword.controller.js";
 
 const authRouter = express.Router();
 const routesObject = [
@@ -19,6 +21,16 @@ const routesObject = [
     method: "post",
     path: "/logout",
     handler: logout,
+  },
+  {
+    method: "post",
+    path: "/forgot-password",
+    handler: forgotPassword,
+  },
+  {
+    method: "post",
+    path: "/reset-password/:token",
+    handler: resetPassword,
   },
 ];
 

@@ -8,4 +8,33 @@ services:
     volumes:
       - .:/app
     command: npm run dev
+    env_file: 
+      - .env
+    depends_on:
+      - db_service
+    
+  db_service:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    env_file:
+      - .env.db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db_service
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - db_service
+
+volumes:
+  mysql_data: 
   

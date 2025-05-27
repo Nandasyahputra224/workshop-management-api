@@ -10,7 +10,7 @@ const app = express();
 var whitelist = ["http://localhost:3000"];
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -19,7 +19,7 @@ var corsOptions = {
 };
 
 dotenv.config();
-app.use[cors(corsOptions)];
+app.use(cors(corsOptions));
 app.use(urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -27,6 +27,6 @@ app.use("/", routes);
 app.use("/auth", authRouter);
 
 const port = process.env.APP_PORT || 3001;
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`server running port ${port}`);
 });
