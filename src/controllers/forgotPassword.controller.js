@@ -31,7 +31,7 @@ export const forgotPassword = async (req, res) => {
     const actionUrl = `http://localhost:3000/reset-password`;
     const html = htmlContent(user.name, actionUrl, user.email);
 
-    await sendEmail(email, "Reset Password", html);
+    await sendEmail(email, "Reset Your Password", html);
 
     res.json({
       message: "password reset link sent to your email",

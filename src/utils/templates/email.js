@@ -101,9 +101,13 @@ export const htmlContent = (name, actionUrl, email) => `
       }
 
       @media (max-width: 480px) {
-        .btn {
-          width: 100%;
-        }
+       .content {
+        text-align: justify;
+      }
+      .btn {
+        width: 35%;
+        font-size: 14px;
+      }
       }
     </style>
   </head>
@@ -138,17 +142,17 @@ export const htmlContent = (name, actionUrl, email) => `
       </div>
       <div class="footer">
         <div class="social-icons">
-          <a href="#"
+          <a href="https://www.facebook.com/share/1AVQ5jweQy/"
             ><img
               src="https://img.icons8.com/ios/50/ffffff/facebook-new.png"
               alt="Facebook"
           /></a>
-          <a href="#"
+          <a href="https://www.instagram.com/gkc_ekspedisi?igsh=MThvaGd1dWNlaG15aw=="
             ><img
               src="https://img.icons8.com/ios/50/ffffff/instagram-new.png"
               alt="Instagram"
           /></a>
-          <a href="https://wa.me/6281234567890" target="_blank"
+          <a href="https://wa.me/6281361680786" target="_blank"
             ><img
               src="https://img.icons8.com/ios/50/ffffff/whatsapp--v1.png"
               alt="WhatsApp"

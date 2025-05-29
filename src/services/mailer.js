@@ -5,7 +5,6 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false,
   auth: {
     user: process.env.SMTP_MAIL_USERNAME,
     pass: process.env.SMTP_MAIL_PASSWORD,
@@ -18,5 +17,8 @@ export const sendEmail = async (to, subject, html) => {
     to,
     subject,
     html,
+    headers: {
+      "X-Mailer": "NodeMaier",
+    },
   });
 };
